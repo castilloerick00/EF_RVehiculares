@@ -1,0 +1,3337 @@
+                                                                
+version 3
+run VoIP-UL-0-20250727-20:06:35-3473
+attr configname VoIP-UL
+attr datetime 20250727-20:06:35
+attr datetimef 20250727-200635
+attr experiment VoIP-UL
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network simu5g.simulations.NR.cars.Highway
+attr processid 3473
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config image-path ../../../images:../../../../inet/images:../../../../veins/images:../../../../veins_inet/images
+config *.server.numApps 10
+config *.server.app[*].typename VoIPReceiver
+config *.server.app[*].localPort "3000 + ancestorIndex(0)"
+config *.car[*].numApps 1
+config *.car[*].app[0].typename VoIPSender
+config *.car[*].app[0].destAddress "\"server\""
+config *.car[*].app[0].destPort "3000 + ancestorIndex(1)"
+config *.car[*].app[0].tos 20
+config cmdenv-autoflush true
+config network simu5g.simulations.NR.cars.Highway
+config debug-on-errors false
+config print-undisposed false
+config sim-time-limit 100s
+config **.sctp.**.scalar-recording false
+config **.sctp.**.vector-recording false
+config **.routingRecorder.enabled false
+config *.playgroundSizeX 20000m
+config *.playgroundSizeY 20000m
+config *.playgroundSizeZ 50m
+config *.veinsManager.host "\"localhost\""
+config *.veinsManager.moduleType "\"simu5g.nodes.cars.NRCar\""
+config *.veinsManager.moduleName "\"car\""
+config *.veinsManager.launchConfig "xmldoc(\"heterogeneous.launchd.xml\")"
+config *.veinsManager.updateInterval 0.1s
+config *.car[*].mobility.typename VeinsInetMobility
+config **.numBands 25
+config **.ueTxPower 26dBm
+config **.eNodeBTxPower 46dBm
+config **.masterEnb.macCellId 0
+config **.masterEnb.macNodeId 0
+config *.masterEnb.nicType "\"LteNicEnbD2D\""
+config *.masterEnb.cellularNic.LtePdcpRrcType "\"NRPdcpRrcEnb\""
+config **.gNodeB1.macCellId 1
+config **.gNodeB1.macNodeId 1
+config **.gNodeB1.masterId 0
+config **.gNodeB2.macCellId 2
+config **.gNodeB2.macNodeId 2
+config **.dualConnectivityEnabled true
+config *.car[*].cellularNic.nrPhy.dynamicCellAssociation false
+config *.car[*].masterId 0
+config *.car[*].macCellId 0
+config *.car[*].nrMasterId 1
+config *.car[*].nrMacCellId 1
+config *.car[*].cellularNic.nrPhy.enableHandover true
+config *.gNodeB*.cellularNic.phy.enableHandover true
+config *.masterEnb.cellularNic.phy.enableHandover true
+config *.gNodeB*.cellularNic.phy.handoverLatency 50ms
+config *.masterEnb.cellularNic.phy.handoverLatency 50ms
+config *.gNodeB*.cellInfo.broadcastMessageInterval 1s
+config *.masterEnb.cellInfo.broadcastMessageInterval 1s
+config *.gNodeB*.numX2Apps 1
+config *.masterEnb.numX2Apps 1
+config *.gNodeB*.x2App[*].server.localPort "5000 + ancestorIndex(1)"
+config *.masterEnb.x2App[0].server.localPort 5000
+config *.gNodeB1.x2App[0].client.connectAddress "\"masterEnb%x2ppp0\""
+config *.gNodeB2.x2App[0].client.connectAddress "\"gNodeB1%x2ppp0\""
+config *.masterEnb.x2App[0].client.connectAddress "\"gNodeB1%x2ppp0\""
+config **.sctp.nagleEnabled false
+config **.sctp.enableHeartbeats false
+
+vector 0 Highway.server.lo[0].lo rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 1 Highway.server.lo[0].lo passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 2 Highway.server.lo[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 3 Highway.server.lo[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 4 Highway.server.ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 5 Highway.server.ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 6 Highway.server.ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 7 Highway.server.ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 8 Highway.server.ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 9 Highway.server.ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 10 Highway.server.ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 11 Highway.server.ppp[0].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 12 Highway.server.ppp[0].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 13 Highway.server.ppp[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 14 Highway.server.ppp[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 15 Highway.server.ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 16 Highway.server.ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 17 Highway.server.ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 18 Highway.server.ppp[0].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 19 Highway.server.ppp[0].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 20 Highway.server.ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 21 Highway.server.ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 22 Highway.server.ppp[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 23 Highway.server.ppp[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 24 Highway.server.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, packetBytes"
+vector 25 Highway.server.ipv4.ip packetDropHopLimitReached:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, packetBytes"
+vector 26 Highway.server.ipv4.ip packetDropForwardingDisabled:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, packetBytes"
+vector 27 Highway.server.ipv4.ip packetDropNoInterfaceFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, packetBytes"
+vector 28 Highway.server.ipv4.ip packetDropNoRouteFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, packetBytes"
+vector 29 Highway.server.ipv4.ip packetDropUndefined:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, packetBytes"
+vector 30 Highway.server.ipv4.arp arpRequestSent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpRequestSent
+attr title "ARP request sent, packetBytes"
+vector 31 Highway.server.ipv4.arp arpReplySent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpReplySent
+attr title "ARP replies sent, packetBytes"
+vector 32 Highway.server.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 33 Highway.server.udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 34 Highway.server.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 35 Highway.server.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 36 Highway.server.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 37 Highway.server.app[0] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 38 Highway.server.app[0] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 39 Highway.server.app[1] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 40 Highway.server.app[1] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 41 Highway.server.app[2] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 42 Highway.server.app[2] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 43 Highway.server.app[3] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 44 Highway.server.app[3] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 45 Highway.server.app[4] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 46 Highway.server.app[4] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 47 Highway.server.app[5] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 48 Highway.server.app[5] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 49 Highway.server.app[6] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 50 Highway.server.app[6] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 51 Highway.server.app[7] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 52 Highway.server.app[7] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 53 Highway.server.app[8] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 54 Highway.server.app[8] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 55 Highway.server.app[9] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+vector 56 Highway.server.app[9] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 57 Highway.router.lo[0].lo rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 58 Highway.router.lo[0].lo passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 59 Highway.router.lo[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 60 Highway.router.lo[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 61 Highway.router.ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 62 Highway.router.ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 63 Highway.router.ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 64 Highway.router.ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 65 Highway.router.ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 66 Highway.router.ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 67 Highway.router.ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 68 Highway.router.ppp[0].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 69 Highway.router.ppp[0].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 70 Highway.router.ppp[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 71 Highway.router.ppp[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 72 Highway.router.ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 73 Highway.router.ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 74 Highway.router.ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 75 Highway.router.ppp[0].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 76 Highway.router.ppp[0].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 77 Highway.router.ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 78 Highway.router.ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 79 Highway.router.ppp[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 80 Highway.router.ppp[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 81 Highway.router.ppp[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 82 Highway.router.ppp[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 83 Highway.router.ppp[1].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 84 Highway.router.ppp[1].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 85 Highway.router.ppp[1].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 86 Highway.router.ppp[1].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 87 Highway.router.ppp[1].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 88 Highway.router.ppp[1].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 89 Highway.router.ppp[1].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 90 Highway.router.ppp[1].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 91 Highway.router.ppp[1].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 92 Highway.router.ppp[1].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 93 Highway.router.ppp[1].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 94 Highway.router.ppp[1].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 95 Highway.router.ppp[1].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 96 Highway.router.ppp[1].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 97 Highway.router.ppp[1].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 98 Highway.router.ppp[1].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 99 Highway.router.ppp[1] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 100 Highway.router.ppp[1] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 101 Highway.router.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, packetBytes"
+vector 102 Highway.router.ipv4.ip packetDropHopLimitReached:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, packetBytes"
+vector 103 Highway.router.ipv4.ip packetDropForwardingDisabled:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, packetBytes"
+vector 104 Highway.router.ipv4.ip packetDropNoInterfaceFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, packetBytes"
+vector 105 Highway.router.ipv4.ip packetDropNoRouteFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, packetBytes"
+vector 106 Highway.router.ipv4.ip packetDropUndefined:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, packetBytes"
+vector 107 Highway.router.ipv4.arp arpRequestSent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpRequestSent
+attr title "ARP request sent, packetBytes"
+vector 108 Highway.router.ipv4.arp arpReplySent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpReplySent
+attr title "ARP replies sent, packetBytes"
+vector 109 Highway.upf.lo[0].lo rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 110 Highway.upf.lo[0].lo passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 111 Highway.upf.lo[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 112 Highway.upf.lo[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 113 Highway.upf.ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 114 Highway.upf.ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 115 Highway.upf.ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 116 Highway.upf.ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 117 Highway.upf.ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 118 Highway.upf.ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 119 Highway.upf.ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 120 Highway.upf.ppp[0].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 121 Highway.upf.ppp[0].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 122 Highway.upf.ppp[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 123 Highway.upf.ppp[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 124 Highway.upf.ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 125 Highway.upf.ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 126 Highway.upf.ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 127 Highway.upf.ppp[0].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 128 Highway.upf.ppp[0].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 129 Highway.upf.ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 130 Highway.upf.ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 131 Highway.upf.ppp[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 132 Highway.upf.ppp[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 133 Highway.upf.ppp[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 134 Highway.upf.ppp[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 135 Highway.upf.ppp[1].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 136 Highway.upf.ppp[1].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 137 Highway.upf.ppp[1].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 138 Highway.upf.ppp[1].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 139 Highway.upf.ppp[1].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 140 Highway.upf.ppp[1].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 141 Highway.upf.ppp[1].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 142 Highway.upf.ppp[1].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 143 Highway.upf.ppp[1].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 144 Highway.upf.ppp[1].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 145 Highway.upf.ppp[1].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 146 Highway.upf.ppp[1].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 147 Highway.upf.ppp[1].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 148 Highway.upf.ppp[1].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 149 Highway.upf.ppp[1].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 150 Highway.upf.ppp[1].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 151 Highway.upf.ppp[1] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 152 Highway.upf.ppp[1] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 153 Highway.upf.ppp[2].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 154 Highway.upf.ppp[2].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 155 Highway.upf.ppp[2].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 156 Highway.upf.ppp[2].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 157 Highway.upf.ppp[2].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 158 Highway.upf.ppp[2].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 159 Highway.upf.ppp[2].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 160 Highway.upf.ppp[2].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 161 Highway.upf.ppp[2].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 162 Highway.upf.ppp[2].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 163 Highway.upf.ppp[2].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 164 Highway.upf.ppp[2].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 165 Highway.upf.ppp[2].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 166 Highway.upf.ppp[2].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 167 Highway.upf.ppp[2].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 168 Highway.upf.ppp[2].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 169 Highway.upf.ppp[2].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 170 Highway.upf.ppp[2].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 171 Highway.upf.ppp[2] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 172 Highway.upf.ppp[2] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 173 Highway.upf.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, packetBytes"
+vector 174 Highway.upf.ipv4.ip packetDropHopLimitReached:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, packetBytes"
+vector 175 Highway.upf.ipv4.ip packetDropForwardingDisabled:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, packetBytes"
+vector 176 Highway.upf.ipv4.ip packetDropNoInterfaceFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, packetBytes"
+vector 177 Highway.upf.ipv4.ip packetDropNoRouteFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, packetBytes"
+vector 178 Highway.upf.ipv4.ip packetDropUndefined:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, packetBytes"
+vector 179 Highway.upf.ipv4.arp arpRequestSent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpRequestSent
+attr title "ARP request sent, packetBytes"
+vector 180 Highway.upf.ipv4.arp arpReplySent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpReplySent
+attr title "ARP replies sent, packetBytes"
+vector 181 Highway.upf.pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 182 Highway.upf.pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 183 Highway.upf.pppIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 184 Highway.upf.pppIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 185 Highway.upf.pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 186 Highway.upf.pppIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 187 Highway.upf.pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 188 Highway.upf.pppIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 189 Highway.upf.pppIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 190 Highway.upf.pppIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 191 Highway.upf.pppIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 192 Highway.upf.pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 193 Highway.upf.pppIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 194 Highway.upf.pppIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 195 Highway.upf.pppIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 196 Highway.upf.pppIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 197 Highway.upf.pppIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 198 Highway.upf.pppIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 199 Highway.upf.pppIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 200 Highway.upf.pppIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 201 Highway.upf.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 202 Highway.upf.udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 203 Highway.upf.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 204 Highway.upf.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 205 Highway.upf.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 206 Highway.gNodeB1.cellularNic.pdcpRrc receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 207 Highway.gNodeB1.cellularNic.pdcpRrc receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 208 Highway.gNodeB1.cellularNic.pdcpRrc sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 209 Highway.gNodeB1.cellularNic.pdcpRrc sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 210 Highway.gNodeB1.cellularNic.rlc.tm rlcPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 211 Highway.gNodeB1.cellularNic.rlc.tm rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 212 Highway.gNodeB1.cellularNic.rlc.tm receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 213 Highway.gNodeB1.cellularNic.rlc.tm receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 214 Highway.gNodeB1.cellularNic.rlc.tm sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 215 Highway.gNodeB1.cellularNic.rlc.tm sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 216 Highway.gNodeB1.cellularNic.rlc.um rlcDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcDelayDl
+attr title "Delay at the rlc layer DL"
+attr unit s
+vector 217 Highway.gNodeB1.cellularNic.rlc.um rlcThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 218 Highway.gNodeB1.cellularNic.rlc.um rlcDelayUl:vector ETV
+attr recordingmode vector
+attr source rlcDelayUl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 219 Highway.gNodeB1.cellularNic.rlc.um rlcThroughputUl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputUl
+attr title "Throughput at the rlc layer UL"
+attr unit Bps
+vector 220 Highway.gNodeB1.cellularNic.rlc.um rlcPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 221 Highway.gNodeB1.cellularNic.rlc.um rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 222 Highway.gNodeB1.cellularNic.rlc.um rlcPacketLossTotal:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossTotal
+attr title "rlc Packet Loss"
+attr unit ""
+vector 223 Highway.gNodeB1.cellularNic.rlc.um rlcPduDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayDl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 224 Highway.gNodeB1.cellularNic.rlc.um rlcPduThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 225 Highway.gNodeB1.cellularNic.rlc.um rlcPduDelayUl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayUl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 226 Highway.gNodeB1.cellularNic.rlc.um rlcPduThroughputUl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputUl
+attr title "Throughput at the rlc layer UL"
+attr unit Bps
+vector 227 Highway.gNodeB1.cellularNic.rlc.um rlcPduPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 228 Highway.gNodeB1.cellularNic.rlc.um rlcPduPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 229 Highway.gNodeB1.cellularNic.rlc.um receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 230 Highway.gNodeB1.cellularNic.rlc.um receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 231 Highway.gNodeB1.cellularNic.rlc.um sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 232 Highway.gNodeB1.cellularNic.rlc.um sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 233 Highway.gNodeB1.cellularNic.rlc.um rlcDelayD2D:vector ETV
+attr recordingmode vector
+attr source rlcDelayD2D
+attr title "Delay at the rlc layer D2D"
+attr unit s
+vector 234 Highway.gNodeB1.cellularNic.rlc.um rlcThroughputD2D:vector ETV
+attr recordingmode vector
+attr source rlcThroughputD2D
+attr title "Throughput at the rlc layer D2D"
+attr unit Bps
+vector 235 Highway.gNodeB1.cellularNic.rlc.um rlcPacketLossD2D:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossD2D
+attr title "rlc Packet Loss"
+attr unit ""
+vector 236 Highway.gNodeB1.cellularNic.rlc.um rlcCellPacketLossD2D:vector ETV
+attr recordingmode vector
+attr source rlcCellPacketLossD2D
+attr title "rlc Cell Packet Loss"
+attr unit ""
+vector 237 Highway.gNodeB1.cellularNic.rlc.um rlcCellThroughputD2D:vector ETV
+attr recordingmode vector
+attr source rlcCellThroughputD2D
+attr title "Cell Throughput at the rlc layer D2D"
+attr unit Bps
+vector 238 Highway.gNodeB1.cellularNic.rlc.um rlcPduDelayD2D:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayD2D
+attr title "Delay at the rlc layer D2D"
+attr unit s
+vector 239 Highway.gNodeB1.cellularNic.rlc.um rlcPduThroughputD2D:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputD2D
+attr title "Throughput at the rlc layer D2D"
+attr unit Bps
+vector 240 Highway.gNodeB1.cellularNic.rlc.um rlcPduPacketLossD2D:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossD2D
+attr title "rlc Packet Loss"
+attr unit ""
+vector 241 Highway.gNodeB1.cellularNic.mac macDelayDl:vector ETV
+attr recordingmode vector
+attr source macDelayDl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 242 Highway.gNodeB1.cellularNic.mac macDelayUl:vector ETV
+attr recordingmode vector
+attr source macDelayUl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 243 Highway.gNodeB1.cellularNic.mac harqErrorRateUl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateUl
+attr title "Harq Error Rate Ul"
+attr unit ""
+vector 244 Highway.gNodeB1.cellularNic.mac harqErrorRateDl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateDl
+attr title "Harq Error Rate Dl"
+attr unit ""
+vector 245 Highway.gNodeB1.cellularNic.mac harqTxAttemptsDl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsDl
+attr title "Harq Tx Attempts Dl"
+attr unit ""
+vector 246 Highway.gNodeB1.cellularNic.mac harqTxAttemptsUl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsUl
+attr title "Harq Tx Attempts Ul"
+attr unit ""
+vector 247 Highway.gNodeB1.cellularNic.mac harqErrorRate_1st_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Ul
+attr title "Harq Error Rate Ul (1st tx)"
+attr unit ""
+vector 248 Highway.gNodeB1.cellularNic.mac harqErrorRate_1st_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Dl
+attr title "Harq Error Rate Dl (1st tx)"
+attr unit ""
+vector 249 Highway.gNodeB1.cellularNic.mac harqErrorRate_2nd_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_2nd_Ul
+attr title "Harq Error Rate Ul (2nd tx)"
+attr unit ""
+vector 250 Highway.gNodeB1.cellularNic.mac harqErrorRate_2nd_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_2nd_Dl
+attr title "Harq Error Rate Dl (2nd tx)"
+attr unit ""
+vector 251 Highway.gNodeB1.cellularNic.mac harqErrorRate_3rd_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_3rd_Ul
+attr title "Harq Error Rate Ul (3rd tx)"
+attr unit ""
+vector 252 Highway.gNodeB1.cellularNic.mac harqErrorRate_3rd_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_3rd_Dl
+attr title "Harq Error Rate Dl (3rd tx)"
+attr unit ""
+vector 253 Highway.gNodeB1.cellularNic.mac harqErrorRate_4th_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_4th_Ul
+attr title "Harq Error Rate Ul (4th tx)"
+attr unit ""
+vector 254 Highway.gNodeB1.cellularNic.mac harqErrorRate_4th_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_4th_Dl
+attr title "Harq Error Rate Dl (4th tx)"
+attr unit ""
+vector 255 Highway.gNodeB1.cellularNic.mac receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 256 Highway.gNodeB1.cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 257 Highway.gNodeB1.cellularNic.mac sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 258 Highway.gNodeB1.cellularNic.mac sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 259 Highway.gNodeB1.cellularNic.mac avgServedBlocksDl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksDl
+attr title "Average number of allocated Resource Blocks in the Dl"
+attr unit blocks
+vector 260 Highway.gNodeB1.cellularNic.mac avgServedBlocksUl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksUl
+attr title "Average number of allocated Resource Blocks in the Dl"
+attr unit blocks
+vector 261 Highway.gNodeB1.cellularNic.channelModel[0] rcvdSinrDl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrDl
+attr title "SINR measured at packet reception, DL"
+attr unit dB
+vector 262 Highway.gNodeB1.cellularNic.channelModel[0] rcvdSinrUl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrUl
+attr title "SINR measured at packet reception, UL"
+attr unit dB
+vector 263 Highway.gNodeB1.cellularNic.channelModel[0] rcvdSinrD2D:vector ETV
+attr recordingmode vector
+attr source rcvdSinrD2D
+attr title "SINR measured at packet reception, D2D"
+attr unit dB
+vector 264 Highway.gNodeB1.cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 265 Highway.gNodeB1.cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 266 Highway.gNodeB1.cellularNic packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 267 Highway.gNodeB1.cellularNic packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 268 Highway.gNodeB1.pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 269 Highway.gNodeB1.pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 270 Highway.gNodeB1.pppIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 271 Highway.gNodeB1.pppIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 272 Highway.gNodeB1.pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 273 Highway.gNodeB1.pppIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 274 Highway.gNodeB1.pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 275 Highway.gNodeB1.pppIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 276 Highway.gNodeB1.pppIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 277 Highway.gNodeB1.pppIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 278 Highway.gNodeB1.pppIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 279 Highway.gNodeB1.pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 280 Highway.gNodeB1.pppIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 281 Highway.gNodeB1.pppIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 282 Highway.gNodeB1.pppIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 283 Highway.gNodeB1.pppIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 284 Highway.gNodeB1.pppIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 285 Highway.gNodeB1.pppIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 286 Highway.gNodeB1.pppIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 287 Highway.gNodeB1.pppIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 288 Highway.gNodeB1.x2ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 289 Highway.gNodeB1.x2ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 290 Highway.gNodeB1.x2ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 291 Highway.gNodeB1.x2ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 292 Highway.gNodeB1.x2ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 293 Highway.gNodeB1.x2ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 294 Highway.gNodeB1.x2ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 295 Highway.gNodeB1.x2ppp[0].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 296 Highway.gNodeB1.x2ppp[0].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 297 Highway.gNodeB1.x2ppp[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 298 Highway.gNodeB1.x2ppp[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 299 Highway.gNodeB1.x2ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 300 Highway.gNodeB1.x2ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 301 Highway.gNodeB1.x2ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 302 Highway.gNodeB1.x2ppp[0].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 303 Highway.gNodeB1.x2ppp[0].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 304 Highway.gNodeB1.x2ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 305 Highway.gNodeB1.x2ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 306 Highway.gNodeB1.x2ppp[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 307 Highway.gNodeB1.x2ppp[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 308 Highway.gNodeB1.x2ppp[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 309 Highway.gNodeB1.x2ppp[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 310 Highway.gNodeB1.x2ppp[1].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 311 Highway.gNodeB1.x2ppp[1].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 312 Highway.gNodeB1.x2ppp[1].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 313 Highway.gNodeB1.x2ppp[1].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 314 Highway.gNodeB1.x2ppp[1].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 315 Highway.gNodeB1.x2ppp[1].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 316 Highway.gNodeB1.x2ppp[1].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 317 Highway.gNodeB1.x2ppp[1].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 318 Highway.gNodeB1.x2ppp[1].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 319 Highway.gNodeB1.x2ppp[1].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 320 Highway.gNodeB1.x2ppp[1].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 321 Highway.gNodeB1.x2ppp[1].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 322 Highway.gNodeB1.x2ppp[1].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 323 Highway.gNodeB1.x2ppp[1].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 324 Highway.gNodeB1.x2ppp[1].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 325 Highway.gNodeB1.x2ppp[1].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 326 Highway.gNodeB1.x2ppp[1] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 327 Highway.gNodeB1.x2ppp[1] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 328 Highway.gNodeB1.pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 329 Highway.gNodeB1.pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 330 Highway.gNodeB1.pppMEHostIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 331 Highway.gNodeB1.pppMEHostIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 332 Highway.gNodeB1.pppMEHostIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 333 Highway.gNodeB1.pppMEHostIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 334 Highway.gNodeB1.pppMEHostIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 335 Highway.gNodeB1.pppMEHostIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 336 Highway.gNodeB1.pppMEHostIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 337 Highway.gNodeB1.pppMEHostIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 338 Highway.gNodeB1.pppMEHostIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 339 Highway.gNodeB1.pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 340 Highway.gNodeB1.pppMEHostIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 341 Highway.gNodeB1.pppMEHostIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 342 Highway.gNodeB1.pppMEHostIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 343 Highway.gNodeB1.pppMEHostIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 344 Highway.gNodeB1.pppMEHostIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 345 Highway.gNodeB1.pppMEHostIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 346 Highway.gNodeB1.pppMEHostIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 347 Highway.gNodeB1.pppMEHostIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 348 Highway.gNodeB1.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, packetBytes"
+vector 349 Highway.gNodeB1.ipv4.ip packetDropHopLimitReached:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, packetBytes"
+vector 350 Highway.gNodeB1.ipv4.ip packetDropForwardingDisabled:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, packetBytes"
+vector 351 Highway.gNodeB1.ipv4.ip packetDropNoInterfaceFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, packetBytes"
+vector 352 Highway.gNodeB1.ipv4.ip packetDropNoRouteFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, packetBytes"
+vector 353 Highway.gNodeB1.ipv4.ip packetDropUndefined:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, packetBytes"
+vector 354 Highway.gNodeB1.ipv4.arp arpRequestSent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpRequestSent
+attr title "ARP request sent, packetBytes"
+vector 355 Highway.gNodeB1.ipv4.arp arpReplySent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpReplySent
+attr title "ARP replies sent, packetBytes"
+vector 356 Highway.gNodeB1.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 357 Highway.gNodeB1.udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 358 Highway.gNodeB1.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 359 Highway.gNodeB1.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 360 Highway.gNodeB1.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 361 Highway.gNodeB1.x2App[0].client packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 362 Highway.gNodeB1.x2App[0].client packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 363 Highway.gNodeB1.x2App[0].client echoedPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source echoedPk
+attr title "packets echoed, packetBytes"
+vector 364 Highway.gNodeB2.cellularNic.pdcpRrc receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 365 Highway.gNodeB2.cellularNic.pdcpRrc receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 366 Highway.gNodeB2.cellularNic.pdcpRrc sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 367 Highway.gNodeB2.cellularNic.pdcpRrc sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 368 Highway.gNodeB2.cellularNic.rlc.tm rlcPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 369 Highway.gNodeB2.cellularNic.rlc.tm rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 370 Highway.gNodeB2.cellularNic.rlc.tm receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 371 Highway.gNodeB2.cellularNic.rlc.tm receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 372 Highway.gNodeB2.cellularNic.rlc.tm sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 373 Highway.gNodeB2.cellularNic.rlc.tm sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 374 Highway.gNodeB2.cellularNic.rlc.um rlcDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcDelayDl
+attr title "Delay at the rlc layer DL"
+attr unit s
+vector 375 Highway.gNodeB2.cellularNic.rlc.um rlcThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 376 Highway.gNodeB2.cellularNic.rlc.um rlcDelayUl:vector ETV
+attr recordingmode vector
+attr source rlcDelayUl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 377 Highway.gNodeB2.cellularNic.rlc.um rlcThroughputUl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputUl
+attr title "Throughput at the rlc layer UL"
+attr unit Bps
+vector 378 Highway.gNodeB2.cellularNic.rlc.um rlcPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 379 Highway.gNodeB2.cellularNic.rlc.um rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 380 Highway.gNodeB2.cellularNic.rlc.um rlcPacketLossTotal:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossTotal
+attr title "rlc Packet Loss"
+attr unit ""
+vector 381 Highway.gNodeB2.cellularNic.rlc.um rlcPduDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayDl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 382 Highway.gNodeB2.cellularNic.rlc.um rlcPduThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 383 Highway.gNodeB2.cellularNic.rlc.um rlcPduDelayUl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayUl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 384 Highway.gNodeB2.cellularNic.rlc.um rlcPduThroughputUl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputUl
+attr title "Throughput at the rlc layer UL"
+attr unit Bps
+vector 385 Highway.gNodeB2.cellularNic.rlc.um rlcPduPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 386 Highway.gNodeB2.cellularNic.rlc.um rlcPduPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 387 Highway.gNodeB2.cellularNic.rlc.um receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 388 Highway.gNodeB2.cellularNic.rlc.um receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 389 Highway.gNodeB2.cellularNic.rlc.um sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 390 Highway.gNodeB2.cellularNic.rlc.um sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 391 Highway.gNodeB2.cellularNic.rlc.um rlcDelayD2D:vector ETV
+attr recordingmode vector
+attr source rlcDelayD2D
+attr title "Delay at the rlc layer D2D"
+attr unit s
+vector 392 Highway.gNodeB2.cellularNic.rlc.um rlcThroughputD2D:vector ETV
+attr recordingmode vector
+attr source rlcThroughputD2D
+attr title "Throughput at the rlc layer D2D"
+attr unit Bps
+vector 393 Highway.gNodeB2.cellularNic.rlc.um rlcPacketLossD2D:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossD2D
+attr title "rlc Packet Loss"
+attr unit ""
+vector 394 Highway.gNodeB2.cellularNic.rlc.um rlcCellPacketLossD2D:vector ETV
+attr recordingmode vector
+attr source rlcCellPacketLossD2D
+attr title "rlc Cell Packet Loss"
+attr unit ""
+vector 395 Highway.gNodeB2.cellularNic.rlc.um rlcCellThroughputD2D:vector ETV
+attr recordingmode vector
+attr source rlcCellThroughputD2D
+attr title "Cell Throughput at the rlc layer D2D"
+attr unit Bps
+vector 396 Highway.gNodeB2.cellularNic.rlc.um rlcPduDelayD2D:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayD2D
+attr title "Delay at the rlc layer D2D"
+attr unit s
+vector 397 Highway.gNodeB2.cellularNic.rlc.um rlcPduThroughputD2D:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputD2D
+attr title "Throughput at the rlc layer D2D"
+attr unit Bps
+vector 398 Highway.gNodeB2.cellularNic.rlc.um rlcPduPacketLossD2D:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossD2D
+attr title "rlc Packet Loss"
+attr unit ""
+vector 399 Highway.gNodeB2.cellularNic.mac macDelayDl:vector ETV
+attr recordingmode vector
+attr source macDelayDl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 400 Highway.gNodeB2.cellularNic.mac macDelayUl:vector ETV
+attr recordingmode vector
+attr source macDelayUl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 401 Highway.gNodeB2.cellularNic.mac harqErrorRateUl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateUl
+attr title "Harq Error Rate Ul"
+attr unit ""
+vector 402 Highway.gNodeB2.cellularNic.mac harqErrorRateDl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateDl
+attr title "Harq Error Rate Dl"
+attr unit ""
+vector 403 Highway.gNodeB2.cellularNic.mac harqTxAttemptsDl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsDl
+attr title "Harq Tx Attempts Dl"
+attr unit ""
+vector 404 Highway.gNodeB2.cellularNic.mac harqTxAttemptsUl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsUl
+attr title "Harq Tx Attempts Ul"
+attr unit ""
+vector 405 Highway.gNodeB2.cellularNic.mac harqErrorRate_1st_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Ul
+attr title "Harq Error Rate Ul (1st tx)"
+attr unit ""
+vector 406 Highway.gNodeB2.cellularNic.mac harqErrorRate_1st_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Dl
+attr title "Harq Error Rate Dl (1st tx)"
+attr unit ""
+vector 407 Highway.gNodeB2.cellularNic.mac harqErrorRate_2nd_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_2nd_Ul
+attr title "Harq Error Rate Ul (2nd tx)"
+attr unit ""
+vector 408 Highway.gNodeB2.cellularNic.mac harqErrorRate_2nd_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_2nd_Dl
+attr title "Harq Error Rate Dl (2nd tx)"
+attr unit ""
+vector 409 Highway.gNodeB2.cellularNic.mac harqErrorRate_3rd_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_3rd_Ul
+attr title "Harq Error Rate Ul (3rd tx)"
+attr unit ""
+vector 410 Highway.gNodeB2.cellularNic.mac harqErrorRate_3rd_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_3rd_Dl
+attr title "Harq Error Rate Dl (3rd tx)"
+attr unit ""
+vector 411 Highway.gNodeB2.cellularNic.mac harqErrorRate_4th_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_4th_Ul
+attr title "Harq Error Rate Ul (4th tx)"
+attr unit ""
+vector 412 Highway.gNodeB2.cellularNic.mac harqErrorRate_4th_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_4th_Dl
+attr title "Harq Error Rate Dl (4th tx)"
+attr unit ""
+vector 413 Highway.gNodeB2.cellularNic.mac receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 414 Highway.gNodeB2.cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 415 Highway.gNodeB2.cellularNic.mac sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 416 Highway.gNodeB2.cellularNic.mac sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 417 Highway.gNodeB2.cellularNic.mac avgServedBlocksDl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksDl
+attr title "Average number of allocated Resource Blocks in the Dl"
+attr unit blocks
+vector 418 Highway.gNodeB2.cellularNic.mac avgServedBlocksUl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksUl
+attr title "Average number of allocated Resource Blocks in the Dl"
+attr unit blocks
+vector 419 Highway.gNodeB2.cellularNic.channelModel[0] rcvdSinrDl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrDl
+attr title "SINR measured at packet reception, DL"
+attr unit dB
+vector 420 Highway.gNodeB2.cellularNic.channelModel[0] rcvdSinrUl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrUl
+attr title "SINR measured at packet reception, UL"
+attr unit dB
+vector 421 Highway.gNodeB2.cellularNic.channelModel[0] rcvdSinrD2D:vector ETV
+attr recordingmode vector
+attr source rcvdSinrD2D
+attr title "SINR measured at packet reception, D2D"
+attr unit dB
+vector 422 Highway.gNodeB2.cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 423 Highway.gNodeB2.cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 424 Highway.gNodeB2.cellularNic packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 425 Highway.gNodeB2.cellularNic packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 426 Highway.gNodeB2.pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 427 Highway.gNodeB2.pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 428 Highway.gNodeB2.pppIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 429 Highway.gNodeB2.pppIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 430 Highway.gNodeB2.pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 431 Highway.gNodeB2.pppIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 432 Highway.gNodeB2.pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 433 Highway.gNodeB2.pppIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 434 Highway.gNodeB2.pppIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 435 Highway.gNodeB2.pppIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 436 Highway.gNodeB2.pppIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 437 Highway.gNodeB2.pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 438 Highway.gNodeB2.pppIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 439 Highway.gNodeB2.pppIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 440 Highway.gNodeB2.pppIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 441 Highway.gNodeB2.pppIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 442 Highway.gNodeB2.pppIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 443 Highway.gNodeB2.pppIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 444 Highway.gNodeB2.pppIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 445 Highway.gNodeB2.pppIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 446 Highway.gNodeB2.x2ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 447 Highway.gNodeB2.x2ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 448 Highway.gNodeB2.x2ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 449 Highway.gNodeB2.x2ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 450 Highway.gNodeB2.x2ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 451 Highway.gNodeB2.x2ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 452 Highway.gNodeB2.x2ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 453 Highway.gNodeB2.x2ppp[0].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 454 Highway.gNodeB2.x2ppp[0].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 455 Highway.gNodeB2.x2ppp[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 456 Highway.gNodeB2.x2ppp[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 457 Highway.gNodeB2.x2ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 458 Highway.gNodeB2.x2ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 459 Highway.gNodeB2.x2ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 460 Highway.gNodeB2.x2ppp[0].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 461 Highway.gNodeB2.x2ppp[0].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 462 Highway.gNodeB2.x2ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 463 Highway.gNodeB2.x2ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 464 Highway.gNodeB2.x2ppp[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 465 Highway.gNodeB2.x2ppp[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 466 Highway.gNodeB2.pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 467 Highway.gNodeB2.pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 468 Highway.gNodeB2.pppMEHostIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 469 Highway.gNodeB2.pppMEHostIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 470 Highway.gNodeB2.pppMEHostIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 471 Highway.gNodeB2.pppMEHostIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 472 Highway.gNodeB2.pppMEHostIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 473 Highway.gNodeB2.pppMEHostIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 474 Highway.gNodeB2.pppMEHostIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 475 Highway.gNodeB2.pppMEHostIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 476 Highway.gNodeB2.pppMEHostIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 477 Highway.gNodeB2.pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 478 Highway.gNodeB2.pppMEHostIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 479 Highway.gNodeB2.pppMEHostIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 480 Highway.gNodeB2.pppMEHostIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 481 Highway.gNodeB2.pppMEHostIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 482 Highway.gNodeB2.pppMEHostIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 483 Highway.gNodeB2.pppMEHostIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 484 Highway.gNodeB2.pppMEHostIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 485 Highway.gNodeB2.pppMEHostIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 486 Highway.gNodeB2.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, packetBytes"
+vector 487 Highway.gNodeB2.ipv4.ip packetDropHopLimitReached:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, packetBytes"
+vector 488 Highway.gNodeB2.ipv4.ip packetDropForwardingDisabled:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, packetBytes"
+vector 489 Highway.gNodeB2.ipv4.ip packetDropNoInterfaceFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, packetBytes"
+vector 490 Highway.gNodeB2.ipv4.ip packetDropNoRouteFound:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, packetBytes"
+vector 491 Highway.gNodeB2.ipv4.ip packetDropUndefined:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, packetBytes"
+vector 492 Highway.gNodeB2.ipv4.arp arpRequestSent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpRequestSent
+attr title "ARP request sent, packetBytes"
+vector 493 Highway.gNodeB2.ipv4.arp arpReplySent:vector(packetBytes) ETV
+attr recordingmode vector(packetBytes)
+attr source arpReplySent
+attr title "ARP replies sent, packetBytes"
+vector 494 Highway.gNodeB2.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 495 Highway.gNodeB2.udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 496 Highway.gNodeB2.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 497 Highway.gNodeB2.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 498 Highway.gNodeB2.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 499 Highway.gNodeB2.x2App[0].client packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 500 Highway.gNodeB2.x2App[0].client packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 501 Highway.gNodeB2.x2App[0].client echoedPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source echoedPk
+attr title "packets echoed, packetBytes"
+vector 502 Highway.masterEnb.cellularNic.pdcpRrc receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 503 Highway.masterEnb.cellularNic.pdcpRrc receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 504 Highway.masterEnb.cellularNic.pdcpRrc sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 505 Highway.masterEnb.cellularNic.pdcpRrc sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 506 Highway.masterEnb.cellularNic.rlc.tm rlcPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 507 Highway.masterEnb.cellularNic.rlc.tm rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 508 Highway.masterEnb.cellularNic.rlc.tm receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 509 Highway.masterEnb.cellularNic.rlc.tm receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 510 Highway.masterEnb.cellularNic.rlc.tm sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 511 Highway.masterEnb.cellularNic.rlc.tm sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 512 Highway.masterEnb.cellularNic.rlc.um rlcDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcDelayDl
+attr title "Delay at the rlc layer DL"
+attr unit s
+vector 513 Highway.masterEnb.cellularNic.rlc.um rlcThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 514 Highway.masterEnb.cellularNic.rlc.um rlcDelayUl:vector ETV
+attr recordingmode vector
+attr source rlcDelayUl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 515 Highway.masterEnb.cellularNic.rlc.um rlcThroughputUl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputUl
+attr title "Throughput at the rlc layer UL"
+attr unit Bps
+vector 516 Highway.masterEnb.cellularNic.rlc.um rlcPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 517 Highway.masterEnb.cellularNic.rlc.um rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 518 Highway.masterEnb.cellularNic.rlc.um rlcPacketLossTotal:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossTotal
+attr title "rlc Packet Loss"
+attr unit ""
+vector 519 Highway.masterEnb.cellularNic.rlc.um rlcPduDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayDl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 520 Highway.masterEnb.cellularNic.rlc.um rlcPduThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 521 Highway.masterEnb.cellularNic.rlc.um rlcPduDelayUl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayUl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 522 Highway.masterEnb.cellularNic.rlc.um rlcPduThroughputUl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputUl
+attr title "Throughput at the rlc layer UL"
+attr unit Bps
+vector 523 Highway.masterEnb.cellularNic.rlc.um rlcPduPacketLossUl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossUl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 524 Highway.masterEnb.cellularNic.rlc.um rlcPduPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 525 Highway.masterEnb.cellularNic.rlc.um receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 526 Highway.masterEnb.cellularNic.rlc.um receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 527 Highway.masterEnb.cellularNic.rlc.um sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 528 Highway.masterEnb.cellularNic.rlc.um sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 529 Highway.masterEnb.cellularNic.mac macDelayDl:vector ETV
+attr recordingmode vector
+attr source macDelayDl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 530 Highway.masterEnb.cellularNic.mac macDelayUl:vector ETV
+attr recordingmode vector
+attr source macDelayUl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 531 Highway.masterEnb.cellularNic.mac harqErrorRateUl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateUl
+attr title "Harq Error Rate Ul"
+attr unit ""
+vector 532 Highway.masterEnb.cellularNic.mac harqErrorRateDl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateDl
+attr title "Harq Error Rate Dl"
+attr unit ""
+vector 533 Highway.masterEnb.cellularNic.mac harqTxAttemptsDl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsDl
+attr title "Harq Tx Attempts Dl"
+attr unit ""
+vector 534 Highway.masterEnb.cellularNic.mac harqTxAttemptsUl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsUl
+attr title "Harq Tx Attempts Ul"
+attr unit ""
+vector 535 Highway.masterEnb.cellularNic.mac harqErrorRate_1st_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Ul
+attr title "Harq Error Rate Ul (1st tx)"
+attr unit ""
+vector 536 Highway.masterEnb.cellularNic.mac harqErrorRate_1st_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Dl
+attr title "Harq Error Rate Dl (1st tx)"
+attr unit ""
+vector 537 Highway.masterEnb.cellularNic.mac harqErrorRate_2nd_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_2nd_Ul
+attr title "Harq Error Rate Ul (2nd tx)"
+attr unit ""
+vector 538 Highway.masterEnb.cellularNic.mac harqErrorRate_2nd_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_2nd_Dl
+attr title "Harq Error Rate Dl (2nd tx)"
+attr unit ""
+vector 539 Highway.masterEnb.cellularNic.mac harqErrorRate_3rd_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_3rd_Ul
+attr title "Harq Error Rate Ul (3rd tx)"
+attr unit ""
+vector 540 Highway.masterEnb.cellularNic.mac harqErrorRate_3rd_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_3rd_Dl
+attr title "Harq Error Rate Dl (3rd tx)"
+attr unit ""
+vector 541 Highway.masterEnb.cellularNic.mac harqErrorRate_4th_Ul:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_4th_Ul
+attr title "Harq Error Rate Ul (4th tx)"
+attr unit ""
+vector 542 Highway.masterEnb.cellularNic.mac harqErrorRate_4th_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_4th_Dl
+attr title "Harq Error Rate Dl (4th tx)"
+attr unit ""
+vector 543 Highway.masterEnb.cellularNic.mac receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 544 Highway.masterEnb.cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 545 Highway.masterEnb.cellularNic.mac sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 546 Highway.masterEnb.cellularNic.mac sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 547 Highway.masterEnb.cellularNic.mac avgServedBlocksDl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksDl
+attr title "Average number of allocated Resource Blocks in the Dl"
+attr unit blocks
+vector 548 Highway.masterEnb.cellularNic.mac avgServedBlocksUl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksUl
+attr title "Average number of allocated Resource Blocks in the Dl"
+attr unit blocks
+vector 549 Highway.masterEnb.cellularNic.channelModel[0] rcvdSinrDl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrDl
+attr title "SINR measured at packet reception, DL"
+attr unit dB
+vector 550 Highway.masterEnb.cellularNic.channelModel[0] rcvdSinrUl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrUl
+attr title "SINR measured at packet reception, UL"
+attr unit dB
+vector 551 Highway.masterEnb.cellularNic.channelModel[0] rcvdSinrD2D:vector ETV
+attr recordingmode vector
+attr source rcvdSinrD2D
+attr title "SINR measured at packet reception, D2D"
+attr unit dB
+vector 552 Highway.masterEnb.cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 553 Highway.masterEnb.cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 554 Highway.masterEnb.cellularNic packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 555 Highway.masterEnb.cellularNic packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 556 Highway.masterEnb.pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 557 Highway.masterEnb.pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 558 Highway.masterEnb.pppIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 559 Highway.masterEnb.pppIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 560 Highway.masterEnb.pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 561 Highway.masterEnb.pppIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 562 Highway.masterEnb.pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 563 Highway.masterEnb.pppIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 564 Highway.masterEnb.pppIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 565 Highway.masterEnb.pppIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 566 Highway.masterEnb.pppIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 567 Highway.masterEnb.pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 568 Highway.masterEnb.pppIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 569 Highway.masterEnb.pppIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 570 Highway.masterEnb.pppIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 571 Highway.masterEnb.pppIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 572 Highway.masterEnb.pppIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 573 Highway.masterEnb.pppIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 574 Highway.masterEnb.pppIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 575 Highway.masterEnb.pppIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 576 Highway.masterEnb.x2ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 577 Highway.masterEnb.x2ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 578 Highway.masterEnb.x2ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 579 Highway.masterEnb.x2ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 580 Highway.masterEnb.x2ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 581 Highway.masterEnb.x2ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 582 Highway.masterEnb.x2ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 583 Highway.masterEnb.x2ppp[0].queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 584 Highway.masterEnb.x2ppp[0].queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 585 Highway.masterEnb.x2ppp[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 586 Highway.masterEnb.x2ppp[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 587 Highway.masterEnb.x2ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 588 Highway.masterEnb.x2ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 589 Highway.masterEnb.x2ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 590 Highway.masterEnb.x2ppp[0].ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 591 Highway.masterEnb.x2ppp[0].ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 592 Highway.masterEnb.x2ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 593 Highway.masterEnb.x2ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 594 Highway.masterEnb.x2ppp[0] packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 595 Highway.masterEnb.x2ppp[0] packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 596 Highway.masterEnb.pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 597 Highway.masterEnb.pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 598 Highway.masterEnb.pppMEHostIf.queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 599 Highway.masterEnb.pppMEHostIf.queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 600 Highway.masterEnb.pppMEHostIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 601 Highway.masterEnb.pppMEHostIf.queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 602 Highway.masterEnb.pppMEHostIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 603 Highway.masterEnb.pppMEHostIf.queue droppedPacketLengthsQueueOverflow:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow"
+attr unit b
+vector 604 Highway.masterEnb.pppMEHostIf.queue flowQueueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+vector 605 Highway.masterEnb.pppMEHostIf.queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 606 Highway.masterEnb.pppMEHostIf.queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 607 Highway.masterEnb.pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 608 Highway.masterEnb.pppMEHostIf.ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 609 Highway.masterEnb.pppMEHostIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 610 Highway.masterEnb.pppMEHostIf.ppp packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, packetBytes"
+vector 611 Highway.masterEnb.pppMEHostIf.ppp packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, packetBytes"
+vector 612 Highway.masterEnb.pppMEHostIf.ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 613 Highway.masterEnb.pppMEHostIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 614 Highway.masterEnb.pppMEHostIf packetDropInterfaceDown:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, packetBytes"
+vector 615 Highway.masterEnb.pppMEHostIf packetDropNoCarrier:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, packetBytes"
+vector 616 Highway.masterEnb.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, packetBytes"
+vector 617 Highway.masterEnb.ipv4.ip packetDropHopLimitReached:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, packetBytes"
+vector 618 Highway.masterEnb.ipv4.ip packetDropForwardingDisabled:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDro

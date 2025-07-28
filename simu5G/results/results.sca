@@ -1,0 +1,87 @@
+version 3
+run Cars-SplitBearer-DL-0-20250728-01:11:08-1632
+attr configname Cars-SplitBearer-DL
+attr datetime 20250728-01:11:08
+attr datetimef 20250728-011108
+attr experiment Cars-SplitBearer-DL
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network simu5g.simulations.NR.cars.Highway
+attr processid 1632
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config image-path ../../../images:../../../../inet/images:../../../../veins/images:../../../../veins_inet/images
+config description "Dual Connectivity con Split Bearer en Downlink para coches"
+config *.server.numApps 10
+config *.server.app[*].typename VoIPSender
+config *.server.app[*].destAddress "\"car[\" + string(ancestorIndex(0)) + \"]\""
+config *.server.app[*].destPort 3000
+config *.server.app[*].startTime "uniform(0.1s, 0.5s)"
+config *.server.app[*].tos 20
+config *.car[*].numApps 1
+config *.car[*].app[0].typename VoIPReceiver
+config *.car[*].app[0].localPort 3000
+config *.car[*].app[0].scalar-recording true
+config *.car[*].app[0].vector-recording true
+config cmdenv-autoflush true
+config network simu5g.simulations.NR.cars.Highway
+config output-vector-file results/results.vec
+config output-scalar-file results/results.sca
+config **.vector-recording true
+config **.scalar-recording true
+config debug-on-errors false
+config print-undisposed false
+config sim-time-limit 100s
+config **.sctp.**.scalar-recording false
+config **.sctp.**.vector-recording false
+config **.routingRecorder.enabled false
+config *.playgroundSizeX 20000m
+config *.playgroundSizeY 20000m
+config *.playgroundSizeZ 50m
+config *.veinsManager.host "\"localhost\""
+config *.veinsManager.moduleType "\"simu5g.nodes.cars.NRCar\""
+config *.veinsManager.moduleName "\"car\""
+config *.veinsManager.launchConfig "xmldoc(\"heterogeneous.launchd.xml\")"
+config *.veinsManager.updateInterval 0.1s
+config *.car[*].mobility.typename VeinsInetMobility
+config **.dualConnectivityEnabled true
+config *.masterEnb.cellularNic.typename LteNicEnbD2D
+config *.gNodeB1.masterId 2
+config **.numBands 25
+config **.ueTxPower 26dBm
+config **.eNodeBTxPower 46dBm
+config *.car[*].cellularNic.nrPhy.dynamicCellAssociation true
+config *.car[*].cellularNic.nrPhy.enableHandover true
+config *.car[*].cellularNic.mac.scalar-recording true
+config *.car[*].masterId 2
+config *.car[*].macCellId 2
+config *.car[*].nrMasterId 1
+config *.car[*].nrMacCellId 1
+config *.gNodeB1.macCellId 1
+config *.gNodeB1.macNodeId 1
+config *.masterEnb.macCellId 2
+config *.masterEnb.macNodeId 2
+config *.gNodeB*.cellularNic.phy.enableHandover true
+config *.masterEnb.cellularNic.phy.enableHandover true
+config *.gNodeB*.cellularNic.phy.handoverLatency 50ms
+config *.masterEnb.cellularNic.phy.handoverLatency 50ms
+config *.gNodeB*.cellInfo.broadcastMessageInterval 1s
+config *.masterEnb.cellInfo.broadcastMessageInterval 1s
+config *.masterEnb.numX2Apps 1
+config *.gNodeB1.numX2Apps 1
+config *.masterEnb.x2App[0].server.localPort 5001
+config *.gNodeB1.x2App[0].server.localPort 5000
+config *.masterEnb.x2App[0].client.connectAddress "\"gNodeB1%x2ppp0\""
+config *.gNodeB1.x2App[0].client.connectAddress "\"masterEnb%x2ppp0\""
+config **.sctp.nagleEnabled false
+config **.sctp.enableHeartbeats false
+
+scalar Highway.gNodeB1.x2App[0].client ums 1452
+scalar Highway.masterEnb.x2App[0].client ums 1452
+
